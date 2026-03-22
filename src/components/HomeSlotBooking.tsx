@@ -228,6 +228,8 @@ import { Clock, Lock, CheckCircle, ShieldAlert, User, Mail, Loader2 } from "luci
 import Link from "next/link";
 import { useRouter } from "next/navigation"; 
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+
 const HomeSlotBooking = () => {
   const router = useRouter();
 
@@ -277,7 +279,7 @@ const HomeSlotBooking = () => {
   // 2. Fetch Live Occupancy Data from PostgreSQL
   const fetchLiveSlots = async (currentMemberId: string) => {
     try {
-      const response = await fetch("http://localhost:8080/api/bookings/all");
+      const response = await fetch(`${API_BASE_URL}/api/bookings/all`);
       if (response.ok) {
         const bookings = await response.json();
         
@@ -311,7 +313,7 @@ const HomeSlotBooking = () => {
     setIsBooking(true);
 
     try {
-      const response = await fetch("http://localhost:8080/api/bookings", {
+      const response = await fetch(`${API_BASE_URL}/api/bookings`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -819,6 +819,9 @@ import { Lock, User, ShieldAlert, ArrowRight, Loader2, Dumbbell, CheckCircle, Ke
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+
+
 const LoginContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();

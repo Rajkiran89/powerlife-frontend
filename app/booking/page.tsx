@@ -1449,6 +1449,9 @@ import { Lock, X, CheckCircle, Sun, Moon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation"; // SYSTEM DESIGN: Added Next.js Router
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+
+
 export default function BookingPage() {
   const router = useRouter(); // Initialize the router
 
@@ -1482,7 +1485,7 @@ export default function BookingPage() {
 
   const checkExistingBooking = async (id: string) => {
     try {
-      const response = await fetch("http://localhost:8080/api/bookings/all");
+      const response = await fetch(`${API_BASE_URL}/api/bookings/all`);
       if (response.ok) {
         const bookings = await response.json();
         
@@ -1531,7 +1534,7 @@ export default function BookingPage() {
     setSlotCounts(prev => ({ ...prev, [time]: (prev[time] || 0) + 1 })); 
 
     try {
-      const response = await fetch("http://localhost:8080/api/bookings", {
+      const response = await fetch(`${API_BASE_URL}/api/bookings`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

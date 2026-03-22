@@ -1171,6 +1171,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Users, AlertTriangle, Trash2, RefreshCw, CalendarDays, LogOut, Clock, X, Edit, Plus, CheckCircle, Search, Info, Sun, Moon, CalendarRange, XCircle } from "lucide-react";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+
 
 interface Member {
   id: number;
@@ -1239,14 +1241,14 @@ export default function AdminDashboard() {
     if (!token) return;
 
     try {
-      const memberRes = await fetch("http://localhost:8080/api/users/all", {
+      const memberRes = await fetch(`${API_BASE_URL}/api/users/all`, {
           headers: { "Authorization": `Bearer ${token}` }
       });
       
       if (memberRes.ok) setMembers(await memberRes.json());
       else if (memberRes.status === 403) handleLogout(); 
 
-      const bookingRes = await fetch("http://localhost:8080/api/bookings/all", {
+      const bookingRes = await fetch(`${API_BASE_URL}/api/bookings/all`, {
           headers: { "Authorization": `Bearer ${token}` }
       });
 
@@ -1290,7 +1292,7 @@ export default function AdminDashboard() {
         onConfirm: async () => {
             setConfirmModal(null); // Close modal first
             try {
-              await fetch(`http://localhost:8080/api/users/${id}`, { 
+              await fetch(`${API_BASE_URL}/api/users/${id}`, { 
                   method: "DELETE",
                   headers: { "Authorization": `Bearer ${getToken()}` }
               });
@@ -1308,7 +1310,7 @@ export default function AdminDashboard() {
       const plan = new FormData(e.currentTarget).get("planType") as string;
       
       try {
-        const response = await fetch(`http://localhost:8080/api/users/${renewModal.id}/renew`, {
+        const response = await fetch(`${API_BASE_URL}/api/users/${renewModal.id}/renew`, {
           method: "PUT",
           headers: { 
               "Content-Type": "application/json",
@@ -1338,7 +1340,7 @@ export default function AdminDashboard() {
         onConfirm: async () => {
             setConfirmModal(null); // Close modal
             try {
-              await fetch(`http://localhost:8080/api/bookings/${id}`, { 
+              await fetch(`${API_BASE_URL}/api/bookings/${id}`, { 
                   method: "DELETE",
                   headers: { "Authorization": `Bearer ${getToken()}` } 
               });
@@ -1364,7 +1366,7 @@ export default function AdminDashboard() {
 
     try {
         if (editingMember) {
-            const response = await fetch(`http://localhost:8080/api/users/${editingMember.id}`, {
+            const response = await fetch(`${API_BASE_URL}/api/users/${editingMember.id}`, {
                 method: "PUT", 
                 headers: { 
                     "Content-Type": "application/json",
@@ -1380,7 +1382,7 @@ export default function AdminDashboard() {
                 showPopup("Failed to update member.", "error");
             }
         } else {
-            const response = await fetch(`http://localhost:8080/api/users/admin/add-member`, {
+            const response = await fetch(`${API_BASE_URL}/api/users/admin/add-member`, {
                 method: "POST", 
                 headers: { 
                     "Content-Type": "application/json",

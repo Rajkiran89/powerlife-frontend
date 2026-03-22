@@ -363,6 +363,8 @@ import { ChevronRight, Mail, Home, User, CheckCircle, MapPin, Loader2 } from "lu
 import Link from "next/link";
 import { useSearchParams } from "next/navigation"; 
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+
 const JoinContent = () => {
   const searchParams = useSearchParams();
   const initialPlan = searchParams.get("plan") || "QUARTERLY"; 
